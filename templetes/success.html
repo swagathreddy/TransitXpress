@@ -1,1 +1,50 @@
-<h1>booking conformed</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        
+        .success-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        
+        .details {
+            margin-top: 20px;
+        }
+        
+        .details p {
+            margin-bottom: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <h1>Booking Confirmed</h1>
+        <div class="details">
+            <p><strong>From:</strong> {{ from_location }}</p>
+            <p><strong>To:</strong> {{ to_location }}</p>
+            <p><strong>Passenger Name:</strong> {{ passenger_name }}</p>
+            <p><strong>Email:</strong> {{ email }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
