@@ -68,11 +68,12 @@ def DestinationDetails(request):
     
             routes=Feature.objects.filter(fromdesti__icontains=query)
             routes=Feature.objects.filter(todesti__icontains=query1)
-            
+        if routes:   
             return render(request, 'Destinationdetails.html',{'routes':routes,'routes':routes})
         else:
-            messages.info(request,"NO routes found")
-            
+            messages.info(request,"No routes found. Please search for other places.")
+            return render(request, 'Destinationdetails.html', {'routes': []})
+
 @login_required
 def conformation(request):
     if request.method == 'POST':
@@ -108,10 +109,20 @@ def conformation(request):
 
         # send_mail(subject, plain_message, from_email, to_email, html_message=html_message)
         send_mail("Thankyou for your Booking",f"{passenger_name} your Ticket is successfully booked...your destination details are {fromdesti} to {todesti}",EMAIL_HOST_USER,[email],fail_silently=True)
-        return render(request,'success.html')  # Replace with the actual template name
+        return render(request, 'success.html', {
+    'from_location': fromdesti,
+    'to_location': todesti,
+    'passenger_name': passenger_name,
+    'email': email,
+})
+# Replace with the actual template name
     
-        # Handle GET request (show the form)
-    return render(request, '/')  # Replace with the actual template name
+    if request.user.is_authenticated:
+        # If the user is already authenticated, proceed with the booking
+        return render(request, 'conformation.html')
+    messages.info(request, "Please create an account or log in to your account.")
+    return render(request, 'register.html')
+
 
 # Example using print statements
 def your_view(request):
@@ -124,9 +135,12 @@ def tickets_view(request):
     # Logic to fetch user tickets from the database
     # Replace this with your actual logic
     user_tickets = Conformation.objects.filter(user=request.user)
-
-    return render(request, 'tickets.html', {'user_tickets': user_tickets})
-
+    if user_tickets:
+        return render(request, 'tickets.html', {'user_tickets': user_tickets})
+    else:
+        messages.info(request,"No Tickets found")
+        return render(request, 'tickets.html')
+        
 def routes(request):
     features=Feature.objects.all()
     return render(request, 'routes.html',{'features':features})
