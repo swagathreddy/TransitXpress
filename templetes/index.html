@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransitXpress</title>
+    
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+<header class="header">
+    <a href="#" class="logo">TransitXpress</a>
+    <input type="checkbox" id="check">
+    <label for="check" class="icons">
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <i class='bx bx-x' id="close-icon"></i>
+        
+    </label>
+    <nav class="navbar">
+            <a class="active" href="#">Home</a>
+            <a href="{% url 'routes' %}">Routes</a>
+            <a href="{% url 'tickets' %}">Your Tickets</a>
+            {% if user.is_authenticated %}
+            <a href="logout" >Welcome,{{user.username}}....logout</a>
+            {% else %}
+            <a href="register" >Login/SignUp</a>
+            {% endif %}
+    </nav>
+</header>
+<div class="container">
+<div class="about">
+    <h1>"Revolutionize Your Travel Experience with Conductor-Less Transit!"</h1><br>
+        <h2>India's First inter-city Bus Booking website..</h2><br>
+        <h2>Book with ease</h2><br>
+        <h2>Secure Payments</h2><br>
+        <h2>Save your Time</h2><br>
+</div>
+<div class="destination">
+<form action="{% url 'search' %}" method='GET'>
+    {% csrf_token %}
+    <label class="label-text">From</label><br>
+    <input class="input-box" name="query" type="search" list="fromscripts" autofocus placeholder="Stop or City"><br>
+    <datalist id="fromscripts">
+        <option value="Anurag University">
+        <option value="Uppal">
+        <option value="Ecil">
+        <option value="Ghatkesar">
+    </datalist>
+    <label class="label-text">To</label><br>
+    <input class="input-box" type="text" name="query1" type="search" list="toscripts" placeholder="Stop or City "><br>
+    <datalist id="toscripts">
+        <option value="Anurag University">
+        <option value="Uppal">
+        <option value="Ecil">
+        <option value="Ghatkesar">
+    </datalist>
+    <input class="input-box" type="date" placeholder="select date">
+    <input class="submitbtn" type="submit">
+</form>
+</div>
+
+</div>
+
+
+<div class="historic">
+<h3 class="histo-title">Historic Places in Hyderabad To Visit</h3>
+<div class="histo-img">
+    <img class="imgs" src="{% static 'image/golkonda.jpg' %}" alt="not available">
+
+    <img class="imgs" src="{% static 'image/charminar.jpg' %}" alt="not available">
+
+    <img class="imgs" src="{% static 'image/sarlajung.jpg' %}" alt="not available">
+</div>
+</div>
+
+
+
+
+</div> 
+</body>
+</html>
+

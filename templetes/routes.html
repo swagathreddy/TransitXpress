@@ -1,0 +1,74 @@
+
+<!-- {% for opr in features %} 
+<div>
+    <h4 >{{opr.fromdesti}}  TO {{opr.todesti}}</h4><br>
+
+</div> 
+{% endfor %}  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .bus-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .bus {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .bus-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .route {
+            flex-grow: 1;
+            margin-left: 20px;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bus-container">
+        {% for opr in features %} 
+            <div class="bus">
+                <div class="bus-number">{{ opr.id }}</div>
+                <div class="route">Route: {{ opr.fromdesti }} to {{ opr.todesti }}</div>
+                
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Your existing popup HTML and script here -->
+
+    <script>
+        function openPopup(busNumber) {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

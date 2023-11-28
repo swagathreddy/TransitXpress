@@ -1,0 +1,142 @@
+<!-- bus_booking.html -->
+
+
+{% block content %}
+    <div class="bus-container">
+        {% for route in routes %}
+            <div class="bus">
+                <div class="bus-number">{{ route.id }}</div>
+                <div class="route">Route: {{ route.fromdesti }} to {{ route.todesti}}</div>
+                <button class="book-now-button" onclick="openPopup('{{ route.id }}', '{{ route.fromdesti }}', 
+                '{{ route.todesti }}')">Book Now</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2>Book Now</h2>
+            <form action="{% url 'conformation' %}" method="post">
+                {% csrf_token %}
+                <!-- <input type="hidden" name="user_id" value="{{ user.id }}"> -->
+                <input type="hidden" name="fromdesti" id="from_location">
+                <input type="hidden" name="todesti" id="to_location">
+
+                <label for="passenger-name">Passenger Name:</label>
+                <input type="text" id="passenger-name" name="passenger_name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="payment-mode">Payment Mode:</label>
+                <input type="checkbox"  name="payment_mode" >
+                <label for="Cash">Cash</label>
+                
+
+                <input class="book-now-button" type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+   
+    <!-- Add this inside the <script> tag in your template -->
+<script>
+    function openPopup(id,fromdesti, todesti) {
+        console.log(`ID: ${id}, Fromdesti: ${fromdesti}, Todesti: ${todesti}`);
+        document.getElementById('popup').style.display = 'block';
+        document.getElementById('from_location').value = fromdesti;
+        document.getElementById('to_location').value = todesti;
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
+
+    <style>
+        /* Add your existing CSS styles here */
+        label{
+        margin-left: 10px;
+       }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            width: 80%;
+            margin: 100px auto;
+        }
+
+        .close {
+            float: right;
+            cursor: pointer;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .bus-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .bus {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .bus-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .route {
+            flex-grow: 1;
+            margin-left: 20px;
+            font-size: 1.5rem;
+        }
+
+        .book-now-button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 30px;
+        }
+
+        .book-now-button:hover {
+            background-color: #205222;
+        }
+
+    </style>
+
+    <script>
+        function openPopup(busNumber) {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+{% endblock %}

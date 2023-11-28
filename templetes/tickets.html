@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Tickets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .ticket-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .ticket {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .ticket-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .ticket-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .ticket-details div {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .ticket-details .payment-mode {
+            text-align: right;
+        }
+
+        .ticket-actions {
+            text-align: right;
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <!-- Loop through user tickets from Django view and render them -->
+        {% for ticket in user_tickets %}
+            <div class="ticket">
+                <div class="ticket-header">Ticket #{{ ticket.id }}</div>
+                <div class="ticket-details">
+                    <div>
+                        <strong>From:</strong> {{ ticket.from_location }}<br>
+                        <strong>To:</strong> {{ ticket.to_location }}<br>
+                        <strong>Passenger Name:</strong> {{ ticket.passenger_name }}<br>
+                        <strong>Email:</strong> {{ ticket.email }}
+                    </div>
+                    <div class="payment-mode">
+                        <strong>Payment Mode:</strong> {{ ticket.payment_mode }}
+                    </div>
+                </div>
+                <!-- <div class="ticket-actions"> -->
+                    <!-- Add a delete button with a link to a Django view to delete the ticket -->
+                    <!-- <button class="delete-button" onclick="deleteTicket({{ ticket.id }})">Delete Ticket</button>
+                </div> -->
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Function to handle ticket deletion
+        function deleteTicket(ticketId) {
+            // Implement the logic to send a request to delete the ticket with the specified ID
+            // You can use AJAX or a form submission to a Django view for ticket deletion
+            // Reload the page or update the UI accordingly after successful deletion
+            console.log('Deleting ticket with ID:', ticketId);
+        }
+    </script>
+</body>
+</html>
