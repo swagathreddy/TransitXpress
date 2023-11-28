@@ -3,14 +3,24 @@
 
 {% block content %}
     <div class="bus-container">
+    {% if routes %}
         {% for route in routes %}
             <div class="bus">
                 <div class="bus-number">{{ route.id }}</div>
                 <div class="route">Route: {{ route.fromdesti }} to {{ route.todesti}}</div>
-                <button class="book-now-button" onclick="openPopup('{{ route.id }}', '{{ route.fromdesti }}', 
-                '{{ route.todesti }}')">Book Now</button>
+                {% if user.is_authenticated %}
+                    <button class="book-now-button" onclick="openPopup('{{ route.id }}', '{{ route.fromdesti }}', '{{ route.todesti }}')">Book Now</button>
+                {% else %}
+                    <a href="{% url 'login' %}">Login/register to Book</a>
+                {% endif %}
             </div>
         {% endfor %}
+    {% else %}
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {%  endfor %}
+    {% endif %}
+
     </div>
 
     <div id="popup" class="popup">
