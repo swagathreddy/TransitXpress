@@ -23,7 +23,7 @@
             <a href="{% url 'routes' %}">Routes</a>
             <a href="{% url 'tickets' %}">Your Tickets</a>
             {% if user.is_authenticated %}
-            <a href="logout" >Welcome,{{user.username}}....logout</a>
+            <a href="logout" >Welcome,{{user.username}}_____logout</a>
             {% else %}
             <a href="register" >Login/SignUp</a>
             {% endif %}
