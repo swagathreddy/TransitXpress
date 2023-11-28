@@ -108,7 +108,7 @@ def conformation(request):
         # to_email = [email]
 
         # send_mail(subject, plain_message, from_email, to_email, html_message=html_message)
-        send_mail("Thankyou for your Booking",f"{passenger_name} your Ticket is successfully booked...your destination details are {fromdesti} to {todesti}",EMAIL_HOST_USER,[email],fail_silently=True)
+        send_mail("Thankyou for your Booking",f"{passenger_name} your Ticket is successfully Booked.Boarding details will be sent soon..HAVE A GREAT JOUNREY",EMAIL_HOST_USER,[email],fail_silently=True)
         return render(request, 'success.html', {
     'from_location': fromdesti,
     'to_location': todesti,
