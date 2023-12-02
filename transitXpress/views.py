@@ -58,18 +58,20 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
+from django.db.models import Q
 def DestinationDetails(request):
     if request.method == 'GET':
         query=request.GET.get('query')
         query1=request.GET.get('query1')
+        print(f'From: {query}, To: {query1}')
         routes=[]
         
         if query and query1:
     
-            routes=Feature.objects.filter(fromdesti__icontains=query)
-            routes=Feature.objects.filter(todesti__icontains=query1)
+            routes=Feature.objects.filter(Q(fromdesti__icontains=query) | Q(todesti__icontains=query1))
+        
         if routes:   
-            return render(request, 'Destinationdetails.html',{'routes':routes,'routes':routes})
+            return render(request, 'Destinationdetails.html',{'routes':routes})
         else:
             messages.info(request,"No routes found. Please search for other places.")
             return render(request, 'Destinationdetails.html', {'routes': []})
@@ -78,12 +80,12 @@ def DestinationDetails(request):
 def conformation(request):
     if request.method == 'POST':
         
-        fromdesti = request.POST.get('fromdesti')
-        todesti = request.POST.get('todesti')
+        from_location = request.POST.get('from_location')
+        to_location = request.POST.get('to_location')
         passenger_name = request.POST.get('passenger_name')
         email = request.POST.get('email')
         payment_mode = request.POST.get('payment_mode')
-        print(passenger_name,email,payment_mode,f'Fromdesti: {fromdesti}, Todesti: {todesti}')
+        print(passenger_name,email,payment_mode,f'Fromdesti: {from_location}, Todesti: {to_location}')
         # Assuming the user is logged in
         # user=request.user
         
@@ -91,8 +93,8 @@ def conformation(request):
         Conformation.objects.create(
             # user_id_id=.user,
             user=request.user,
-            from_location=fromdesti,
-            to_location=todesti,
+            from_location=from_location,
+            to_location=to_location,
             passenger_name=passenger_name,
             email=email,
             payment_mode=payment_mode
@@ -108,10 +110,10 @@ def conformation(request):
         # to_email = [email]
 
         # send_mail(subject, plain_message, from_email, to_email, html_message=html_message)
-        send_mail("Thankyou for your Booking",f"{passenger_name} your Ticket is successfully Booked.Boarding details will be sent soon..HAVE A GREAT JOUNREY",EMAIL_HOST_USER,[email],fail_silently=True)
+        send_mail("Thankyou for your Booking",f"{passenger_name} your Ticket is successfully booked...",EMAIL_HOST_USER,[email],fail_silently=True)
         return render(request, 'success.html', {
-    'from_location': fromdesti,
-    'to_location': todesti,
+    'from_location': from_location,
+    'to_location': to_location,
     'passenger_name': passenger_name,
     'email': email,
 })
@@ -134,12 +136,16 @@ def your_view(request):
 def tickets_view(request):
     # Logic to fetch user tickets from the database
     # Replace this with your actual logic
-    user_tickets = Conformation.objects.filter(user=request.user)
-    if user_tickets:
-        return render(request, 'tickets.html', {'user_tickets': user_tickets})
+    
+    if request.user.is_authenticated:
+        user_tickets = Conformation.objects.filter(user=request.user)
+        if user_tickets:
+            return render(request, 'tickets.html', {'user_tickets': user_tickets, 'user': request.user})
+        else:
+             messages.info(request,"No Tickets found")
+             return render(request, 'tickets.html' )
     else:
-        messages.info(request,"No Tickets found")
-        return render(request, 'tickets.html')
+       return render(request, 'tickets.html' , {'user': request.user})
         
 def routes(request):
     features=Feature.objects.all()
