@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,39 +69,35 @@
         }
     </style>
 </head>
+
 <body>
     <div class="ticket-container">
-        <!-- Loop through user tickets from Django view and render them -->
-        {% for ticket in user_tickets %}
-            <div class="ticket">
-                <div class="ticket-header">Ticket #{{ ticket.id }}</div>
-                <div class="ticket-details">
-                    <div>
-                        <strong>From:</strong> {{ ticket.from_location }}<br>
-                        <strong>To:</strong> {{ ticket.to_location }}<br>
-                        <strong>Passenger Name:</strong> {{ ticket.passenger_name }}<br>
-                        <strong>Email:</strong> {{ ticket.email }}
+        {% if user.is_authenticated %}
+            {% if user_tickets %}
+                {% for ticket in user_tickets %}
+                    <div class="ticket">
+                        <div class="ticket-details">
+                            <div>
+                                <strong>From:</strong> {{ ticket.from_location }}<br>
+                                <strong>To:</strong> {{ ticket.to_location }}<br>
+                                <strong>Passenger Name:</strong> {{ ticket.passenger_name }}<br>
+                                <strong>Email:</strong> {{ ticket.email }}
+                            </div>
+                            <div class="payment-mode">
+                                <strong>Payment Mode:</strong> {{ ticket.payment_mode }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="payment-mode">
-                        <strong>Payment Mode:</strong> {{ ticket.payment_mode }}
-                    </div>
-                </div>
-                <!-- <div class="ticket-actions"> -->
-                    <!-- Add a delete button with a link to a Django view to delete the ticket -->
-                    <!-- <button class="delete-button" onclick="deleteTicket({{ ticket.id }})">Delete Ticket</button>
-                </div> -->
-            </div>
-        {% endfor %}
+                {% endfor %}
+            {% else %}
+                <p>No Tickets found</p>
+            {% endif %}
+        {% else %}
+            <p>Please <a href="{% url 'login' %}">login/register</a> to view your tickets.</p>
+        {% endif %}
     </div>
 
-    <script>
-        // Function to handle ticket deletion
-        function deleteTicket(ticketId) {
-            // Implement the logic to send a request to delete the ticket with the specified ID
-            // You can use AJAX or a form submission to a Django view for ticket deletion
-            // Reload the page or update the UI accordingly after successful deletion
-            console.log('Deleting ticket with ID:', ticketId);
-        }
-    </script>
+   
 </body>
+
 </html>
