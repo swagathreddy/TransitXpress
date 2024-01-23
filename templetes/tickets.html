@@ -67,6 +67,15 @@
         .delete-button:hover {
             background-color: #c0392b;
         }
+        @media (max-width: 600px) {
+            .ticket-details {
+                flex-direction: column; /* Stack items vertically on smaller screens */
+            }
+        
+            .ticket-details .payment-mode {
+                text-align: left; /* Align to the left on smaller screens */
+            }
+        }
     </style>
 </head>
 
